@@ -1,0 +1,173 @@
+{
+  "nbformat": 4,
+  "nbformat_minor": 0,
+  "metadata": {
+    "colab": {
+      "provenance": [],
+      "authorship_tag": "ABX9TyO5Y5qQOuVNN4Uzl81+skx6",
+      "include_colab_link": true
+    },
+    "kernelspec": {
+      "name": "python3",
+      "display_name": "Python 3"
+    },
+    "language_info": {
+      "name": "python"
+    }
+  },
+  "cells": [
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "view-in-github",
+        "colab_type": "text"
+      },
+      "source": [
+        "<a href=\"https://colab.research.google.com/github/OMAR-7WR/AI-Dataset/blob/main/Egg\" target=\"_parent\"><img src=\"https://colab.research.google.com/assets/colab-badge.svg\" alt=\"Open In Colab\"/></a>"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "import pygame\n",
+        "import random\n",
+        "import sys\n",
+        "\n",
+        "# Initialize pygame\n",
+        "pygame.init()\n",
+        "\n",
+        "# Screen dimensions\n",
+        "SCREEN_WIDTH = 800\n",
+        "SCREEN_HEIGHT = 600\n",
+        "FPS = 60\n",
+        "\n",
+        "# Colors\n",
+        "WHITE = (255, 255, 255)\n",
+        "BLACK = (0, 0, 0)\n",
+        "RED = (255, 0, 0)\n",
+        "BLUE = (0, 0, 255)\n",
+        "GREEN = (0, 255, 0)\n",
+        "YELLOW = (255, 255, 0)\n",
+        "\n",
+        "# Setup the game screen\n",
+        "screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))\n",
+        "pygame.display.set_caption(\"ডিম সংগ্রহের গেম\")\n",
+        "clock = pygame.time.Clock()\n",
+        "\n",
+        "# Basket dimensions and position\n",
+        "basket_width = 100\n",
+        "basket_height = 50\n",
+        "basket_x = SCREEN_WIDTH // 2 - basket_width // 2\n",
+        "basket_y = SCREEN_HEIGHT - basket_height - 10\n",
+        "basket_speed = 10\n",
+        "\n",
+        "# Egg dimensions and position\n",
+        "egg_width = 30\n",
+        "egg_height = 40\n",
+        "egg_x = random.randint(0, SCREEN_WIDTH - egg_width)\n",
+        "egg_y = 0\n",
+        "egg_speed = 5\n",
+        "\n",
+        "# Score and font\n",
+        "score = 0\n",
+        "font = pygame.font.SysFont(\"Arial\", 30)\n",
+        "\n",
+        "# Draw basket\n",
+        "def draw_basket(x, y):\n",
+        "    pygame.draw.rect(screen, BLUE, (x, y, basket_width, basket_height))\n",
+        "\n",
+        "# Draw egg\n",
+        "def draw_egg(x, y):\n",
+        "    pygame.draw.ellipse(screen, YELLOW, (x, y, egg_width, egg_height))\n",
+        "\n",
+        "# Game loop\n",
+        "running = True\n",
+        "while running:\n",
+        "    screen.fill(WHITE)\n",
+        "    for event in pygame.event.get():\n",
+        "        if event.type == pygame.QUIT:\n",
+        "            running = False\n",
+        "\n",
+        "    # Basket movement\n",
+        "    keys = pygame.key.get_pressed()\n",
+        "    if keys[pygame.K_LEFT] and basket_x > 0:\n",
+        "        basket_x -= basket_speed\n",
+        "    if keys[pygame.K_RIGHT] and basket_x < SCREEN_WIDTH - basket_width:\n",
+        "        basket_x += basket_speed\n",
+        "\n",
+        "    # Egg falling\n",
+        "    egg_y += egg_speed\n",
+        "    if egg_y > SCREEN_HEIGHT:\n",
+        "        egg_x = random.randint(0, SCREEN_WIDTH - egg_width)\n",
+        "        egg_y = 0\n",
+        "        score -= 1  # Lose a point for missing an egg\n",
+        "\n",
+        "    # Collision detection\n",
+        "    if (basket_x < egg_x < basket_x + basket_width) and (basket_y < egg_y < basket_y + basket_height):\n",
+        "        egg_x = random.randint(0, SCREEN_WIDTH - egg_width)\n",
+        "        egg_y = 0\n",
+        "        score += 1  # Gain a point for catching an egg\n",
+        "\n",
+        "    # Draw basket and egg\n",
+        "    draw_basket(basket_x, basket_y)\n",
+        "    draw_egg(egg_x, egg_y)\n",
+        "\n",
+        "    # Display score\n",
+        "    score_text = font.render(f\"স্কোর: {score}\", True, BLACK)\n",
+        "    screen.blit(score_text, (10, 10))\n",
+        "\n",
+        "    pygame.display.flip()\n",
+        "    clock.tick(FPS)\n",
+        "\n",
+        "# Quit the game\n",
+        "pygame.quit()\n",
+        "sys.exit()"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 211
+        },
+        "id": "gO3P4y6WRmq_",
+        "outputId": "f04d8ece-dd88-41ff-977f-514cbd22c0a6"
+      },
+      "execution_count": 5,
+      "outputs": [
+        {
+          "output_type": "error",
+          "ename": "KeyboardInterrupt",
+          "evalue": "",
+          "traceback": [
+            "\u001b[0;31m---------------------------------------------------------------------------\u001b[0m",
+            "\u001b[0;31mKeyboardInterrupt\u001b[0m                         Traceback (most recent call last)",
+            "\u001b[0;32m<ipython-input-5-e7f06355550a>\u001b[0m in \u001b[0;36m<cell line: 0>\u001b[0;34m()\u001b[0m\n\u001b[1;32m     87\u001b[0m \u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m     88\u001b[0m     \u001b[0mpygame\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mdisplay\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mflip\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0;32m---> 89\u001b[0;31m     \u001b[0mclock\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mtick\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0mFPS\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0m\u001b[1;32m     90\u001b[0m \u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m     91\u001b[0m \u001b[0;31m# Quit the game\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n",
+            "\u001b[0;31mKeyboardInterrupt\u001b[0m: "
+          ]
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": 3,
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "0Kspqre_RPgn",
+        "outputId": "bc2f11b1-4853-4683-ad7a-4078ef657fb7"
+      },
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "Requirement already satisfied: pygame in /usr/local/lib/python3.11/dist-packages (2.6.1)\n"
+          ]
+        }
+      ],
+      "source": [
+        "!pip install pygame"
+      ]
+    }
+  ]
+}
